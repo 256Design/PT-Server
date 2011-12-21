@@ -1,0 +1,16 @@
+UPDATED 12/5/11
+256 Design
+
+Moved to beta! Nothing guaranteed. Please submit bugs and feature requests.
+
+0.2:   New: Added some settings, including sending a copy of your report to yourself.
+            Added login settings.
+       Improved: UI in general. 
+                 Reminders should now work effectively, please reset your times in the settings menu.
+       Fix: A lot of bugs, including out of view questions on your report.
+
+0.1.3: Fix: Remove placeholder data on register form.
+
+0.1.2: Fix: Remove placeholder questions.
+
+0.1.1: Fix login bug.
