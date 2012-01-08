@@ -30,6 +30,10 @@
 			{
 				$sql = "DELETE from tb_user_confirm WHERE confCode = '$cleanC'";
 				$con->query($sql);
+				$to = "spencer@256design.com";
+				$subject = $fName . " " . $lName . " activated an account with " .
+				          "Project Transparency";
+				mail($to, $subject, "");
 				echo "Welcome, your account has been activated. Go ahead and log in.";
 			}
 			else

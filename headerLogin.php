@@ -1,22 +1,19 @@
 <?php
+	require 'dbConnect.php';
+
 $emailAddress;
 $password;
-
-// Change the following settings based on your db
-// Im assuming your are using NySQL
-$dbHost = "Change Me";
-$dbName = "Change Me";
-$dbUser = "Change Me";
-$dbPassword = "Change Me";
 
 if (isset($_REQUEST['emailAddress']) &&
 	isset($_REQUEST['password']))
 {
-	$con = new mysqli($dbHost ,$dbPassword, $dbUser,$dbName);
+	$con = makeSQLI();
 	if($con === false) die('Error ' . mysqli_connect_error);
 
-	$emailAddress = $con->escape_string($_REQUEST['emailAddress']);
+	$emailAddress = ($_REQUEST['emailAddress']);
 	$password = (md5($_REQUEST['password']));
+
+	$cleanEmail = $con->escape_string($emailAddress);
 
 	$sql = "SELECT id FROM tb_users WHERE email_address = '$cleanEmail' AND password = '$password'";
 	if($result = $con->query($sql))
@@ -24,6 +21,11 @@ if (isset($_REQUEST['emailAddress']) &&
 		$row = $result->fetch_row();
 		if($result->num_rows == 1)
 		{
+			$sql = "UPDATE tb_users " .
+			          "SET last_login = NOW() " .
+			          "WHERE email_address = '$cleanEmail'";
+			$con->query($sql);
+			
 			header("Status: 202 Accepted");
 			die($row[0]);			
 		}

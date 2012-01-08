@@ -2,7 +2,7 @@
 require 'dbConnect.php';
 require 'validation.php';
 
-
+// TODO add ability to move partnership to your account email
 if(isset($_GET['fake']))
 {
 	sleep(3);
@@ -99,9 +99,18 @@ if(isset($_POST['responses']))
 		$someSent = false;
 		foreach ($partnersArray as $key => $partner) {
 			$to = $partner;
-			$sendMessage = $message . "\r\nIf you would like to stop receiving these email, got to http://" . 
-					$_SERVER['SERVER_NAME'] . "/projectTransparency/project/endPartnership.php?id=02".$key."7".rand(10, 99)." (NOTICE: They will be notified).";
-			//echo $sendMessage."<br/>";
+			$sendMessage = $message;
+			if(isset($_GET['followUp']))
+			{
+				$sendMessage .= "\r\n". $userRow['first_name'] . " requested that" .
+						" you follow up on this report with them. Try sending them " .
+						"an email at " . $userRow['email_address'] . " \r\n";
+			}
+			$sendMessage .= "\r\nIf you would like to stop receiving these email, got to http://" . 
+					$_SERVER['SERVER_NAME'] . 
+					"/projectTransparency/project/endPartnership.php?id=02".$key.
+					"7".rand(10, 99)." (NOTICE: They will be notified).";
+			
 			if(mail($to, $subject, $sendMessage, 'From: no-response-project@256design.com') && !$someSent)
 			{
 				$someSent = true;
@@ -111,10 +120,18 @@ if(isset($_POST['responses']))
 		{
 			$to= $userRow['email_address'];
 			$subject = "Project Transparency - Your Daily Report";
+			if(isset($_GET['followUp']))
+				$message .= "\r\nA follow up was requested for this report.";
 			mail($to, $subject, $message, 'From: no-response-project@256design.com');
 		}
 		if($someSent)
 		{
+			$sql = "UPDATE tb_users " .
+						    "SET last_report = NOW() " .
+						    "WHERE email_address = '" . 
+							$userRow['email_address'] . "'";
+			$con->query($sql);
+			
 			header("Status: 202 Accepted");
 		}
 		else

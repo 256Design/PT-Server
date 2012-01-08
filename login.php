@@ -1,4 +1,5 @@
- <?php
+<?php
+
 require 'dbConnect.php';
 require 'validation.php';
 
