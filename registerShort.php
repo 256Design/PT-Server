@@ -29,19 +29,17 @@
 		$cleanEmail = $con->escape_string($emailAddress);
 		
 		$sql = "SELECT COUNT(*) FROM tb_users WHERE email_address = '$cleanEmail'";
-		echo("Checking existing emails<br>$sql\n\r");
+		//Checking existing emails
 		if($result = $con->query($sql))
 		{
 			if($row = $result->fetch_array())
 			{
 				if((int)$row[0] > 0)
 				{
-					echo("Email address already in use. Rows: " + $row[0]);
+					// Email address already in use.
 					header("Status: 409 Conflict");
 					die("");
 				}
-				else
-					print_r("search results: $row\n\r");
 			}
 			else
 				die("Error: " + $result->error());
@@ -49,21 +47,21 @@
 		else
 			die("Error checking for existing emails.");
 		//$con->close();
-		echo("No existing entry\n\r");
+		//No existing entry
 		
-		echo("Adding to db\n\r");
+		//Adding to db
 		$sql = "INSERT INTO tb_user_confirm (email_address, password, last_name, first_name, email_sent, confCode)
 		 VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
 		/*$sql = "INSERT INTO tb_user_confirm " + 
 		"(email_address, password, last_name, first_name, email_sent, confCode)" +
 		" VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";*/
-		echo '$stmt: ' . $stmt;
+		//echo '$stmt: ' . $stmt;
 		if(!($stmt = $con->prepare($sql)))
 			die($con->error+"</br>$sql");
-		echo("prepared/n/r");
+		//prepared
 		$stmt->bind_param('sssss', 
 				$emailAddress, $password, $lastName, $firstName, $confCode);
-		echo("bound/n/r");
+		//bound
 		if($stmt->execute())
 		{
 			if(mail($_REQUEST['emailAddress'], "Confirm Project Transparency Account", 
