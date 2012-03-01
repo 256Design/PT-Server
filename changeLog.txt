@@ -3,6 +3,12 @@ UPDATED 1/6/12
 
 Moved to beta! Nothing guaranteed. Please submit bugs and feature requests.
 
+0.2.3: New: Request a password reset feature.
+	   Fix: Major bug that caused items on the reporting screen to be out of order or repeated.
+
+0.2.2: New: If you log out and log back in with a different user, all user data is cleared. 
+       Fix: Fixed report reminders and app name.
+
 0.2:   New: Added some settings, including sending a copy of your report to yourself.
             Added login settings.
        Improved: UI in general. 
