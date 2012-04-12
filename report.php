@@ -111,7 +111,16 @@ if(isset($_POST['responses']))
 					"/projectTransparency/project/endPartnership.php?id=02".$key.
 					"7".rand(10, 99)." (NOTICE: They will be notified).";
 			
-			if(mail($to, $subject, $sendMessage, 'From: no-response-project@256design.com') && !$someSent)
+			if(
+				mail(
+						$to, 
+						$subject, 
+						$sendMessage, 
+						'From: no-response-project@256design.com' . "\r\n" .
+						    'Reply-To: ' . $userRow['email_address'] . "\r\n" .
+						    'X-Mailer: PHP/' . phpversion()
+				)
+				 && !$someSent)
 			{
 				$someSent = true;
 			}
@@ -122,7 +131,14 @@ if(isset($_POST['responses']))
 			$subject = "Project Transparency - Your Daily Report";
 			if(isset($_GET['followUp']))
 				$message .= "\r\nA follow up was requested for this report.";
-			mail($to, $subject, $message, 'From: no-response-project@256design.com');
+			mail(
+						$to, 
+						$subject, 
+						$message, 
+						'From: no-response-project@256design.com' . "\r\n" .
+						    'Reply-To: ' . $userRow['email_address'] . "\r\n" .
+						    'X-Mailer: PHP/' . phpversion()
+				);
 		}
 		if($someSent)
 		{
