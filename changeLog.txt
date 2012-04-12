@@ -3,6 +3,11 @@ UPDATED 1/6/12
 
 Moved to beta! Nothing guaranteed. Please submit bugs and feature requests.
 
+0.2.4: Added: Optional vibrate and LED on reminders, see settings.
+	   Added: Decide what to do on reminder. Choose between "Report Now", "Snooze", and "Dismiss"
+	   Fixed: Major bug that caused responses on the reporting screen to disappear.
+	   Redux: Register moved to login screen. Birthdate and gender no longer needed for registration.
+
 0.2.3: New: Request a password reset feature.
 	   Fix: Major bug that caused items on the reporting screen to be out of order or repeated.
 
